@@ -4,7 +4,7 @@ const cors = require('cors');
 //config
 const { API_NAME, API_VERSION } = require("./config");
 // routes
-
+const UserRoutes = require('./routes/user.routes');
 // crear el servidor
 const app = express();
 //conectar a la base de datos
@@ -21,8 +21,8 @@ const port = process.env.PORT || 3977;
 // to read values from body
 app.use( express.json() );
 // app routes() 
-
+app.use( `/${ API_NAME }/${ API_VERSION }`, UserRoutes );
 // Start app
 app.listen(port, '0.0.0.0', () => {
-  console.log( `El servidor esta funcionando en el puerto ${ port }` );
+  console.log( `El servidor esta funcionando en  ${ port }` );
 }  )

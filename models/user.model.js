@@ -2,12 +2,12 @@ const mongoose = require( 'mongoose' );
 const Schema = mongoose.Schema;
 
 const UserSchema = Schema({
-    names               : { type : String, required : true },
+    name                : { type : String, required : true },
     lastname            : { type : String, required : true },
     password            : { type : String, required : true },
     email               : { type :String, unique : true, required : true },
     isAdmin             : { type: Boolean, unique: true, required : true, default: false },
-    role                : { type :String, default: 'user' },
+    role                : { type :String, default: 'member' },
     active              : { type :Boolean, default: true }, 
     tasks               : [{type: Schema.ObjectId, ref: 'Task'}],
     avatar              : {
