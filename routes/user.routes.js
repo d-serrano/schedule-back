@@ -2,6 +2,7 @@ const express = require( 'express' );
 // controller
 const UserController = require( '../controllers/user.controller' );
 // midllewares
+const md_auth = require( '../middlewares/ensureAuthenticated' );
 // validation
 const { check } = require( 'express-validator' );
 const api =  express.Router();
@@ -23,9 +24,17 @@ api.post( "/login",
   UserController.login 
 );
 // update user
-
+api.put( "/update/:id",
+  [ md_auth.ensureAuth], 
+  UserController.updateUser 
+);
 // delete user
-
+api.delete( "/delete/:id",
+  [ md_auth.ensureAuth,
+    md_auth.isAdmin
+  ], 
+  UserController.deleteUser 
+);
 // to do get Members ...
 
 

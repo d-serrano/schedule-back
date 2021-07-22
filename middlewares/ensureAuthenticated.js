@@ -18,3 +18,17 @@ exports.ensureAuth = ( req, res, next ) => {
     req.user=playload;
     next();
 }
+
+exports.isAdmin = ( req, res, next )=>{
+    const token = req.headers.authorization.replace(/['"]+/g, "");
+    try{
+        var playload = jwt.decode( token, SECRET_KEY );
+        if ( !playload.isAdmin ){
+            return res.status(404).send({ messange: "Debe ser un Administrador para realizar esta accion" });
+        }
+    }catch( ex ){
+        return res.status(404).send({ message: 'Token invalido.' })
+    }
+    req.user=playload;
+    next();
+}

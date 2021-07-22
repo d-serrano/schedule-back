@@ -66,8 +66,47 @@ const login = async (req, res) => {
 		}
 	});
 }
+// update user
+const updateUser = async ( req, res ) =>{
+	let userData    = req.body;
+	const { id }    = req.params;
+	if ( userData.password ) {
+		try {
+			// hash al password
+			const salt = await bcryptjs.genSalt(10);
+			userData.password = await bcrypt.hash(userData.password, salt );
+			   
+		}catch (err){
+			res.status(500).send({ message: 'error al encriptar la contraseña' });
+		}
+	}
+	// Actulizar el ususario
+	try {
+		const updatedUser = await  User.findByIdAndUpdate( id, userData );
+		res.status(200).send({ message: 'Usuario Actualizado correctamente', ussuario : updatedUser });
+	} catch (error) {
+		res.status(500).send({ message: 'error al actualizar usuario', error : error });
+	}
+	
+}
+// delete user
+const deleteUser = ( req, res ) =>{
+	const { id } = req.params;
+
+	User.findOneAndDelete( {_id: id }, ( err, userDeleted ) => {
+		if ( err ) {
+			res.status(500).send({ code: 500, message: 'error de servidor', error: err });
+		} else if ( !userDeleted ){
+			res.status(404).send({ code : 400, message: 'no se ha encontrado el usuario' });
+		}else{
+			res.status(200).send({ code: 200, message: 'Usuario eliminado correctamente', user: userDeleted });
+		}
+	} );
+}
 
 module.exports = {
 	signUp,
-  login
+  login,
+	updateUser,
+	deleteUser,
 }
