@@ -5,7 +5,7 @@ const UserSchema = Schema({
     name                : { type : String, required : true },
     lastname            : { type : String, required : true },
     password            : { type : String, required : true },
-    email               : { type :String, unique : true, required : true },
+    userName               : { type :String, unique : true, required : true },
     isAdmin             : { type: Boolean, unique: true, required : true, default: false },
     role                : { type :String, default: 'member' },
     active              : { type :Boolean, default: true }, 

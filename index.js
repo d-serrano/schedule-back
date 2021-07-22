@@ -21,7 +21,7 @@ const port = process.env.PORT || 3977;
 // to read values from body
 app.use( express.json() );
 // app routes() 
-app.use( `/${ API_NAME }/${ API_VERSION }`, UserRoutes );
+app.use( `/${ API_NAME }/${ API_VERSION }/users`, UserRoutes );
 // Start app
 app.listen(port, '0.0.0.0', () => {
   console.log( `El servidor esta funcionando en  ${ port }` );

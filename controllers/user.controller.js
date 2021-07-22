@@ -9,6 +9,7 @@ const { validationResult } = require( 'express-validator' );
 // create user
 const signUp = async ( req, res ) => {
 	const { body } = req;
+  const { userName, password } = body;
 	// *******************************************************************
   // ****************************  Verify ******************************
   // *******************************************************************
@@ -16,21 +17,19 @@ const signUp = async ( req, res ) => {
   const errors = validationResult( req );
   if ( !errors.isEmpty() ) return  res.status( 400 ).json({ errores : errors.array() });
 	// user exist
-	let existUser = await User.findOne({ email });
+	let existUser = await User.findOne({ userName });
   if ( existUser ){ 
-		return res.status(400).json({ message: 'this email is alredy taken'});
+		return res.status(400).json({ message: 'this userName is alredy taken'});
   }
 
 	// create user
 	const user = new User( body );
-	user.email          = email.toLowerCase();
 	user.signUpDate     = moment().unix();
 	try {
 		// encrypt password
 		user.password = await bcrypt.hash ( password, 10 );
-		console.log( ' contraseña encriptada ', user.password)
 		// save user
-		console.log( {user} )
+		//console.log( {user} )
 	 	await user.save();
 		res.status( 200 ).send( { message: 'Usuario registrado correctamente', user } );
 	} catch (error) {
@@ -39,10 +38,9 @@ const signUp = async ( req, res ) => {
 } 
 // login user 
 const login = async (req, res) => {
-  const { email, password } =  req.body;
-	const emailLower =  email.toLowerCase();
+  const { userName, password } =  req.body;
 	// verify email
-	User.findOne( { email: emailLower }, ( err, userStored ) => {
+	User.findOne( { userName }, ( err, userStored ) => {
 		//
 		if ( err ) {
 			res.status(500).send({ code: 500, message: "Error del servidor.", error: err });
@@ -68,7 +66,6 @@ const login = async (req, res) => {
 		}
 	});
 }
-
 
 module.exports = {
 	signUp,
