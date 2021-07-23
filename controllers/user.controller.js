@@ -29,7 +29,6 @@ const signUp = async ( req, res ) => {
 		// encrypt password
 		user.password = await bcrypt.hash ( password, 10 );
 		// save user
-		//console.log( {user} )
 	 	await user.save();
 		res.status( 200 ).send( { message: 'Usuario registrado correctamente', user } );
 	} catch (error) {

@@ -7,23 +7,21 @@ const md_auth = require( '../middlewares/ensureAuthenticated' );
 const { check } = require( 'express-validator' );
 const api =  express.Router();
 // create task
-api.post( "/sign-up",
+api.post( "/create",
   [
-    check( 'name', 'El nombre es obligatorio' ).notEmpty(),
-    check( 'lastname', 'El apellido es obligatorio' ).notEmpty(),
-    check( 'userName', 'El nombre de usuario es obligatorio' ).notEmpty(),
-    check( 'password', 'El password debe ser de al menos 6 caracteres' ).isLength({ min : 6 }),
+    check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
+    check( 'hours', 'El # de horas es obligatorio' ).notEmpty(),
+    check( 'memeber', 'El usuario es obligatorio' ).notEmpty(),
+    check( 'start', 'La fecha e inicio es obligatoria' ).notEmpty(),
   ],
   TaskController.createTask
 );
 // get tasks
 api.get( "/:id",
-  [ md_auth.ensureAuth], 
   TaskController.getTask
 );
 // get tasks
 api.get( "/",
-  [ md_auth.ensureAuth], 
   TaskController.getTasks
 );
 // update user
