@@ -9,10 +9,10 @@ const api =  express.Router();
 // create task
 api.post( "/create",
   [
+    check( 'proyect', 'Se debe especificar el proyecto' ).notEmpty(),
     check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
     check( 'hours', 'El # de horas es obligatorio' ).notEmpty(),
-    check( 'memeber', 'El usuario es obligatorio' ).notEmpty(),
-    check( 'start', 'La fecha e inicio es obligatoria' ).notEmpty(),
+    check( 'member', 'El usuario es obligatorio' ).notEmpty(),
   ],
   TaskController.createTask
 );

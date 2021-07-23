@@ -15,9 +15,9 @@ const create = async ( req, res ) =>{
 	// ceate proyect
 	const proyect = new Proyect( body );
 	proyect.startDate  = moment().unix();
+	proyect.hoursLeft  = proyect.hoursTotal;
 	try {
 		// save proyect
-    console.log('    --create Proyet ', proyect)
 		await proyect.save();
 		res.status( 200 ).send( { message: 'Proyecto creado correctamente', proyect } );
 	} catch (error) {
