@@ -6,8 +6,8 @@ exports.updateHours = async ( req, res, next ) =>{
   const { prevHours } = res.locals;
   //
   if ( !hours && !hourWeight ) { 
-    res.locals.isupdatedHours = false;
-    return  next() 
+    res.locals.isUpdatedHours = false;
+    return  next();
   }
   console.log( { hours: hours, hourWeight: hourWeight})
   let prev = prevHours || 0;
@@ -17,8 +17,8 @@ exports.updateHours = async ( req, res, next ) =>{
     let hoursLeft =  project.hoursLeft + prev - hours * hourWeight ;
     // update proyect
     req.params.hoursLeft = hoursLeft;
-    res.locals.isupdatedHours = true;
-    next()
+    res.locals.isUpdatedHours = true;
+    next();
   } catch (error) {
     res.status( 500 ).send( { 
       message: 'Hubo un error al vincular con proyecto', error 
@@ -39,6 +39,7 @@ exports.hoursChanged = async ( req, res, next ) => {
     res.locals.prevHours = prevHours;
     req.body.hours = hours || task.hours;
     req.body.hourWeight = hourWeight || task.hourWeight;
+    next();
   } catch (error) { 
     res.status( 500 ).send( { 
       message: 'Hubo un error al corregir las horas de la tarea', error 
