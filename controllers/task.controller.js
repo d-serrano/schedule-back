@@ -42,13 +42,21 @@ const getTasks = async ( req, res ) =>{
 }
 // update task
 const updateTask = async ( req, res ) =>{
-	console.log(' upDate task')
-  
+	const { task, isupdatedHours } = res.locals
+	const { body } = req
+	try {
+		// update task
+		console.log('++++++++ upDate task +++++++', { body})
+		const updatedTask = await Labor.findByIdAndUpdate( { _id : req.params.id } , body, { new : true } );
+		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isupdatedHours} } );
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );
+	}
+  //res.status( 200 ).send( {body} );
 }
 // delete tasks
 const deleteTask = async ( req, res ) =>{
-	console.log(' delete task')
-  
+	console.log(' +++++++++++ delete task ++++++++++ ')
 }
 
 module.exports = {

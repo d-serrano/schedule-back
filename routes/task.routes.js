@@ -28,9 +28,11 @@ api.get( "/",
   TaskController.getTasks
 );
 // update user
-api.put( "/:id",
+api.put( "/update/:id",
   [ md_auth.ensureAuth,
-    md_auth.isAdmin
+    md_auth.isAdmin,
+    updateHours.hoursChanged,
+    updateHours.updateHours
   ], 
   TaskController.updateTask 
 );
