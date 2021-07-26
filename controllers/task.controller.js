@@ -1,13 +1,14 @@
 const moment = require ('moment');
 const Task = require( '../models/task.model' ); 
-// services
-const jwt = require('../services/tokens')
+const Project = require( '../models/proyect.model');
 //validaciones
 const { validationResult } = require( 'express-validator' );
 
 // create task
 const createTask = async ( req, res ) =>{
-  const { body } = req;
+	const { body } = req;
+	const { proyect : proyectId } = req.body;
+	const { hoursLeft } = req.params;
 	// *******************************************************************
   // ****************************  Verify ******************************
   // *******************************************************************
@@ -19,8 +20,13 @@ const createTask = async ( req, res ) =>{
 	task.startDate  = moment().unix();
 	try {
 		// save task
+		const updatedProject = await  Project.findByIdAndUpdate( 
+      proyectId, 
+      { hoursLeft : hoursLeft , $push: { tasks: task._id } }, 
+      {returnOriginal: false}
+    );
 		await task.save();
-		res.status( 200 ).send( { message: 'Tarea creada correctamente', task } );
+		res.status( 200 ).send( { message: 'Tarea creada correctamente', result : {task, updatedProject} } );
 	} catch (error) {
 		res.status( 500 ).send( { message: 'Hubo un error al crear a tarea', error } );
 	}

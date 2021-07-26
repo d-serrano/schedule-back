@@ -3,6 +3,7 @@ const express = require( 'express' );
 const TaskController = require( '../controllers/task.controller' );
 // midllewares
 const md_auth = require( '../middlewares/ensureAuthenticated' );
+const updateHours = require( '../middlewares/updateProyectHours' );
 // validation
 const { check } = require( 'express-validator' );
 const api =  express.Router();
@@ -12,7 +13,9 @@ api.post( "/create",
     check( 'proyect', 'Se debe especificar el proyecto' ).notEmpty(),
     check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
     check( 'hours', 'El # de horas es obligatorio' ).notEmpty(),
+    check( 'hourWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
     check( 'member', 'El usuario es obligatorio' ).notEmpty(),
+    updateHours.updateHours
   ],
   TaskController.createTask
 );
