@@ -46,8 +46,9 @@ const updateTask = async ( req, res ) =>{
 	const { body } = req
 	try {
 		// update task
-		console.log('++++++++ upDate task +++++++', { body})
-		const updatedTask = await Labor.findByIdAndUpdate( { _id : req.params.id } , body, { new : true } );
+		console.log('++++++++ upDate task +++++++', { body , task})
+														//Proyect.findByIdAndUpdate( id, data , {returnOriginal: false});
+		const updatedTask = await Labor.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
 		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isupdatedHours} } );
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );

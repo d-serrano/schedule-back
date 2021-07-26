@@ -29,13 +29,14 @@ exports.updateHours = async ( req, res, next ) =>{
 exports.hoursChanged = async ( req, res, next ) => {
   const { id } = req.params;
   const { hours, hourWeight } = req.body;
-  if ( !hours && !hourWeight ) { return next('') }
-  console.log(  'sigue en hours changed')
   try {
+    // obtein tasks
     let task = await Task.findById( id );
+    res.locals.task = task;
+    // verify if the hours changed
+    if ( !hours && !hourWeight ) { return next('') }
     let prevHours = task.hourWeight * task.hours;
     res.locals.prevHours = prevHours;
-    res.locals.task = task;
     req.body.hours = hours || task.hours;
     req.body.hourWeight = hourWeight || task.hourWeight;
   } catch (error) { 
