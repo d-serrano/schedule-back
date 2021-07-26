@@ -38,7 +38,6 @@ const update = async ( req, res ) =>{
   let { body : data, params : { id } } = req;
   try {
     const updatedProyect = await  Proyect.findByIdAndUpdate( id, data , {returnOriginal: false});
-    console.log(' upDate proyect', data, id)
     res.status(200).send({ message: 'Proyecto actualizado correctamente', updatedProyect });
 	} catch (error) {
 		res.status(500).send({ message: 'error al actualizar proyecto', error : error });
