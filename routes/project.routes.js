@@ -22,9 +22,10 @@ api.get( "/:id",
   Projectcontroller.get
 );
 // get 
-api.get( "/",
-  Projectcontroller.getList
+api.get( "/:id/tasks",
+  Projectcontroller.getTasks
 );
+
 // update 
 api.put( "/update/:id",
   [ md_auth.ensureAuth,

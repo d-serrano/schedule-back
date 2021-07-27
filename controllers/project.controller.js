@@ -1,5 +1,6 @@
 const moment = require ('moment');
 const Project = require( '../models/project.model' ); 
+const Task = require( '../models/task.model' ); 
 //validaciones
 const { validationResult } = require( 'express-validator' );
 
@@ -29,9 +30,22 @@ const get = async ( req, res ) =>{
   console.log(' get project')
 }
 
-const getList = async ( req, res ) =>{
-	console.log(' get projects')
-  
+// get tasks
+const getTasks = async ( req, res ) =>{
+	let { id } = req.params;
+	let { offset, slice } = req.query;
+	offset = parseInt(offset) || 0;
+	slice = parseInt(slice) || 10;
+	try {
+		// find project
+		let project = await Project.findById( id ).populate('tasks');
+		console.log(' get tasks', { offset, slice, project })
+		if( !project ){ throw 'No se encontro lel Proyecto.' }
+		const { tasks } = project;
+		res.status(200).send({ tasks });
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'No se pueden obtener tareas de este proyecto', error } );
+	}
 }
 
 const update = async ( req, res ) =>{
@@ -52,7 +66,7 @@ const deleteOne = async ( req, res ) =>{
 module.exports = {
 	create,
   get,
-	getList,
+	getTasks,
 	update,
   deleteOne
 }

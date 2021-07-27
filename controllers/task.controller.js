@@ -38,11 +38,6 @@ const getTask = async ( req, res ) =>{
 	}
 
 }
-// get taska
-const getTasks = async ( req, res ) =>{
-	console.log(' get tasks')
-  
-}
 // update task
 const updateTask = async ( req, res ) =>{
 	const { isUpdatedHours } = res.locals
@@ -87,7 +82,6 @@ const deleteTask = async ( req, res ) =>{
 module.exports = {
 	createTask,
   getTask,
-	getTasks,
 	updateTask,
 	updateTaskHours,
   deleteTask

@@ -21,13 +21,9 @@ api.post( "/create",
   ],
   TaskController.createTask
 );
-// get tasks
+// get task
 api.get( "/:id",
   TaskController.getTask
-);
-// get tasks
-api.get( "/",
-  TaskController.getTasks
 );
 // update task
 api.put( "/update/:id",
