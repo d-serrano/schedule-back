@@ -7,7 +7,7 @@ const TaskSchema = Schema({
     hourWeight      : { type: Number, requiered : true},
     description     : { type: String, requiered : true},
     finished        : { type: Boolean, default: false },
-    succes          : { type: Boolean, default: false },
+    success         : { type: Boolean, default: false },
     startDate       : { type: Date, required : true },
     finishDate      : { type: Date, default :null },
     member          : { type: Schema.ObjectId, ref: 'User' },  

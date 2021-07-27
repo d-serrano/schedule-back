@@ -9,7 +9,6 @@ exports.updateHours = async ( req, res, next ) =>{
     return  next();
   }
   let prev = prevHours || 0;
-  console.log( ' updateHours ', { projectId } )
   try {
     let project = await Project.findById(  projectId )
     if( !project ) { throw 'No se ha encontrado proyecto para esta tarea' }
@@ -18,8 +17,6 @@ exports.updateHours = async ( req, res, next ) =>{
     let hoursLeft =  project.hoursLeft + prev - hours * hourWeight ;
     // send to locals
     req.params.hoursLeft = hoursLeft;
-    res.locals.isUpdatedHours = true;
-    console.log( { hours, hourWeight, hoursLeft})
     next();
   } catch (error) {
     res.status( 500 ).send( { 
@@ -30,17 +27,16 @@ exports.updateHours = async ( req, res, next ) =>{
 
 exports.hoursChanged = async ( req, res, next ) => {
   const { id } = req.params;
-  const { hours, hourWeight } = req.body;
+  
   try {
     // obtein tasks
     let task = await Task.findById( id );
     if( !task ){ throw 'No se encontro la tara a actualizar' }
     res.locals.task = task;
-    // verify if the hours changed
-    if ( hours === task.hours && hourWeight === task.hourWeight ) { return next('') }
+    req.body.project = task.project;
     // hours after update
     res.locals.prevHours = task.hourWeight * task.hours;
-    req.body.project = task.project;
+    res.locals.isUpdatedHours = true;
     next();
   } catch (error) { 
     res.status( 500 ).send( { 

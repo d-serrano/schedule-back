@@ -32,8 +32,8 @@ api.get( "/",
 // update task
 api.put( "/update/:id",
   [ 
-    check( 'hours', 'Este edpoint no actualiza las horas' ).isEmpty(),
-    check( 'hourWeight', 'Este edpoint no actualiza las horas' ).isEmpty(),
+    check( 'hours', 'Este endpoint no actualiza las horas' ).isEmpty(),
+    check( 'hourWeight', 'Este endpoint no actualiza las horas' ).isEmpty(),
     validator.validator,
     md_auth.ensureAuth,
     md_auth.isAdmin,
@@ -51,7 +51,7 @@ api.put( "/update-hours/:id",
     updateHours.hoursChanged,
     updateHours.updateHours
   ], 
-  TaskController.updateTask 
+  TaskController.updateTaskHours 
 );
 // delete task
 api.delete( "/:id",

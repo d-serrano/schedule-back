@@ -9,14 +9,16 @@ const createTask = async ( req, res ) =>{
 	const { hoursLeft } = req.params;
 	// ceate task
 	const task = new Task( body );
+	console.log( {task} )
 	task.startDate  = moment().unix();
 	try {
-		// save task
+		// update project
 		const updatedProject = await  Project.findByIdAndUpdate( 
-      projectId, 
+			projectId, 
       { hoursLeft : hoursLeft , $push: { tasks: task._id } }, 
       {returnOriginal: false}
-    );
+		);
+			// save task
 		await task.save();
 		res.status( 200 ).send( { message: 'Tarea creada correctamente', result : {task, updatedProject} } );
 	} catch (error) {
@@ -25,7 +27,16 @@ const createTask = async ( req, res ) =>{
 }
 // get task
 const getTask = async ( req, res ) =>{
-  console.log(' get task')
+	const { id } = req.params;
+	try {
+		// find task
+		let task = await Task.findById( id );
+		if( !task ){ throw 'No se encontro la tara a actualizar' }
+		console.log(' get task', { task })
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'No se ha podido obtener la tarea', error } );
+	}
+
 }
 // get taska
 const getTasks = async ( req, res ) =>{
@@ -38,11 +49,11 @@ const updateTask = async ( req, res ) =>{
 	const { body } = req
 	const { id } = req.params
 	try {
+		// find task
 		let task = await Task.findById( id );
 		if( !task ){ throw 'No se encontro la tara a actualizar' }
+
 		// update task
-		console.log('++++++++ upDate task +++++++')
-														//Project.findByIdAndUpdate( id, data , {returnOriginal: false});
 		const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
 		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours} } );
 	} catch (error) {
@@ -51,15 +62,19 @@ const updateTask = async ( req, res ) =>{
 }
 
 const updateTaskHours = async ( req, res ) => {
-	const { isUpdatedHours } = res.locals
+	const { isUpdatedHours, task } = res.locals
 	const { body } = req
-	const { id } = req.params
+	const { id, hoursLeft } = req.params
 	try {
+		// update Project hours
+		const updatedProject = await  Project.findByIdAndUpdate( 
+			task.project, 
+      { hoursLeft }, 
+      {returnOriginal: false}
+		);
 		// update task
-		console.log('++++++++ upDate task Hours +++++++')
-														//Project.findByIdAndUpdate( id, data , {returnOriginal: false});
-		const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
-		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours} } );
+		const updatedTask = await Task.findByIdAndUpdate( id , body, { returnOriginal : false } );
+		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours, hoursLeft : updatedProject.hoursLeft} } );
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );
 	}
@@ -74,5 +89,6 @@ module.exports = {
   getTask,
 	getTasks,
 	updateTask,
+	updateTaskHours,
   deleteTask
 }
