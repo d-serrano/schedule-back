@@ -1,6 +1,6 @@
 const express = require( 'express' );
 // controller
-const Proyectcontroller = require( '../controllers/proyect.controller');
+const Projectcontroller = require( '../controllers/project.controller');
 // midllewares
 const md_auth = require( '../middlewares/ensureAuthenticated' );
 // validation
@@ -15,29 +15,29 @@ api.post( "/create",
   [ md_auth.ensureAuth,
     md_auth.isAdmin
   ], 
-  Proyectcontroller.create
+  Projectcontroller.create
 );
 // get 
 api.get( "/:id",
-  Proyectcontroller.get
+  Projectcontroller.get
 );
 // get 
 api.get( "/",
-  Proyectcontroller.getList
+  Projectcontroller.getList
 );
 // update 
 api.put( "/update/:id",
   [ md_auth.ensureAuth,
     md_auth.isAdmin
   ], 
-  Proyectcontroller.update 
+  Projectcontroller.update 
 );
 // delete 
 api.delete( "/:id",
   [ md_auth.ensureAuth,
     md_auth.isAdmin
   ], 
-  Proyectcontroller.deleteOne
+  Projectcontroller.deleteOne
 );
 // to do get Members ...
 

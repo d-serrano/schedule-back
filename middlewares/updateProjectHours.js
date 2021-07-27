@@ -1,23 +1,25 @@
-const Project = require( '../models/proyect.model');
+const Project = require( '../models/project.model');
 const Task = require( '../models/task.model');
 exports.updateHours = async ( req, res, next ) =>{
-  console.log( ' updateHours ' )
-  const { proyect : proyectId, hours, hourWeight } = req.body;
+  const { project : projectId, hours, hourWeight } = req.body;
   const { prevHours } = res.locals;
   //
   if ( !hours && !hourWeight ) { 
     res.locals.isUpdatedHours = false;
     return  next();
   }
-  console.log( { hours: hours, hourWeight: hourWeight})
   let prev = prevHours || 0;
+  console.log( ' updateHours ', { projectId } )
   try {
-    let project = await Project.findById(  proyectId )
-    // changed hours in proyect
+    let project = await Project.findById(  projectId )
+    if( !project ) { throw 'No se ha encontrado proyecto para esta tarea' }
+    // changed hours in project
+
     let hoursLeft =  project.hoursLeft + prev - hours * hourWeight ;
-    // update proyect
+    // send to locals
     req.params.hoursLeft = hoursLeft;
     res.locals.isUpdatedHours = true;
+    console.log( { hours, hourWeight, hoursLeft})
     next();
   } catch (error) {
     res.status( 500 ).send( { 
@@ -32,13 +34,13 @@ exports.hoursChanged = async ( req, res, next ) => {
   try {
     // obtein tasks
     let task = await Task.findById( id );
+    if( !task ){ throw 'No se encontro la tara a actualizar' }
     res.locals.task = task;
     // verify if the hours changed
-    if ( !hours && !hourWeight ) { return next('') }
-    let prevHours = task.hourWeight * task.hours;
-    res.locals.prevHours = prevHours;
-    req.body.hours = hours || task.hours;
-    req.body.hourWeight = hourWeight || task.hourWeight;
+    if ( hours === task.hours && hourWeight === task.hourWeight ) { return next('') }
+    // hours after update
+    res.locals.prevHours = task.hourWeight * task.hours;
+    req.body.project = task.project;
     next();
   } catch (error) { 
     res.status( 500 ).send( { 

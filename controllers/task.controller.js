@@ -1,27 +1,19 @@
 const moment = require ('moment');
 const Task = require( '../models/task.model' ); 
-const Project = require( '../models/proyect.model');
-//validaciones
-const { validationResult } = require( 'express-validator' );
+const Project = require( '../models/project.model');
 
 // create task
 const createTask = async ( req, res ) =>{
 	const { body } = req;
-	const { proyect : proyectId } = req.body;
+	const { project : projectId } = req.body;
 	const { hoursLeft } = req.params;
-	// *******************************************************************
-  // ****************************  Verify ******************************
-  // *******************************************************************
-	// verify bodt
-	const errors = validationResult( req );
-  if ( !errors.isEmpty() ) return  res.status( 400 ).json({ errores : errors.array() });
 	// ceate task
 	const task = new Task( body );
 	task.startDate  = moment().unix();
 	try {
 		// save task
 		const updatedProject = await  Project.findByIdAndUpdate( 
-      proyectId, 
+      projectId, 
       { hoursLeft : hoursLeft , $push: { tasks: task._id } }, 
       {returnOriginal: false}
     );
@@ -42,18 +34,35 @@ const getTasks = async ( req, res ) =>{
 }
 // update task
 const updateTask = async ( req, res ) =>{
-	const { task, isUpdatedHours } = res.locals
+	const { isUpdatedHours } = res.locals
 	const { body } = req
+	const { id } = req.params
 	try {
+		let task = await Task.findById( id );
+		if( !task ){ throw 'No se encontro la tara a actualizar' }
 		// update task
 		console.log('++++++++ upDate task +++++++')
-														//Proyect.findByIdAndUpdate( id, data , {returnOriginal: false});
+														//Project.findByIdAndUpdate( id, data , {returnOriginal: false});
 		const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
 		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours} } );
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );
 	}
-  //res.status( 200 ).send( {body} );
+}
+
+const updateTaskHours = async ( req, res ) => {
+	const { isUpdatedHours } = res.locals
+	const { body } = req
+	const { id } = req.params
+	try {
+		// update task
+		console.log('++++++++ upDate task Hours +++++++')
+														//Project.findByIdAndUpdate( id, data , {returnOriginal: false});
+		const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
+		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours} } );
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );
+	}
 }
 // delete tasks
 const deleteTask = async ( req, res ) =>{
