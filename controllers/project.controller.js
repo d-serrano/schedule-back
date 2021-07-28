@@ -26,6 +26,20 @@ const create = async ( req, res ) =>{
 	}
 }
 
+const getProyects = async ( req, res ) =>{
+	let { offset, slice } = req.query;
+	offset = parseInt(offset) || 0;
+	slice = parseInt(slice) || 10;
+	try {
+		// find projects
+		let projects = await Project.find({ });
+		
+		res.status(200).send({ projects });
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'No se pueden obtener tareas de este proyecto', error } );
+	}
+}
+
 const get = async ( req, res ) =>{
   console.log(' get project')
 }
@@ -65,6 +79,7 @@ const deleteOne = async ( req, res ) =>{
 
 module.exports = {
 	create,
+	getProyects,
   get,
 	getTasks,
 	update,
