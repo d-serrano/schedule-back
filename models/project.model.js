@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const ProjectSchema = Schema({
     name            : { type: String, requiered : true},
-    hoursTotal          : { type: Number, requiered : true},
-    hoursLeft           : { type: Number, default : 0},
-    hoursUsed           : { type: Number, default : 0},
+    hoursTotal      : { type: Number, requiered : true},
+    hoursLeft       : { type: Number, default : 0},
+    hoursUsed       : { type: Number, default : 0},
     description     : { type: String, requiered : false},
     finished        : { type: Boolean, default: false },
     startDate       : { type: Date, required : true },

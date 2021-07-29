@@ -2,10 +2,12 @@ const mongoose = require( 'mongoose' );
 const Schema = mongoose.Schema;
 
 const TaskSchema = Schema({
-    name            : { type: String, requiered : true},
-    hours           : { type: Number, requiered : true},
-    hourWeight      : { type: Number, requiered : true},
-    description     : { type: String, requiered : true},
+    name            : { type: String, requiered : true },
+    hours           : { type: Number, requiered : true },
+    hourWeight      : { type: Number, requiered : true },
+    hourStimation   : { type: Number, requiered : false },
+    requirment      : { type: String, requiered : true },
+    description     : { type: String, requiered : false },
     finished        : { type: Boolean, default: false },
     success         : { type: Boolean, default: false },
     startDate       : { type: Date, required : true },
