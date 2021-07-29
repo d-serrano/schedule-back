@@ -9,7 +9,6 @@ const createTask = async ( req, res ) =>{
 	const { hoursLeft } = req.params;
 	// ceate task
 	const task = new Task( body );
-	console.log( {task} )
 	task.startDate  = moment().unix();
 	try {
 		// update project
@@ -32,7 +31,6 @@ const getTask = async ( req, res ) =>{
 		// find task
 		let task = await Task.findById( id );
 		if( !task ){ throw 'No se encontro la tara a actualizar' }
-		console.log(' get task', { task })
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'No se ha podido obtener la tarea', error } );
 	}

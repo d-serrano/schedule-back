@@ -25,6 +25,7 @@ const signUp = async ( req, res ) => {
 	// create user
 	const user = new User( body );
 	user.signUpDate     = moment().unix();
+	user.email = user.email.toLowerCase();
 	try {
 		// encrypt password
 		user.password = await bcrypt.hash ( password, 10 );
