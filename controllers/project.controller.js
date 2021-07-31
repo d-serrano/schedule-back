@@ -41,6 +41,14 @@ const getProyects = async ( req, res ) =>{
 }
 
 const get = async ( req, res ) =>{
+	let { id } = req.params;
+	try {
+		// find projects
+		let project = await Project.findById( id );
+		res.status(200).send({ project });
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'No se pueden obtener este proyecto', error } );
+	}
   console.log(' get project')
 }
 

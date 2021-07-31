@@ -23,6 +23,7 @@ api.get( "/",
 );
 // get 
 api.get( "/:id",
+  [ md_auth.ensureAuth],
   Projectcontroller.get
 );
 // get  tasks from project
