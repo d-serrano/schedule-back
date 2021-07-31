@@ -26,6 +26,11 @@ api.post( "/login",
 ],
   UserController.login 
 );
+// is Auth
+api.get( '/auth', 
+  [ md_auth.ensureAuth], 
+  UserController.auth
+)
 // update user
 api.put( "/update/:id",
   [ md_auth.ensureAuth], 

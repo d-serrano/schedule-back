@@ -66,6 +66,13 @@ const login = async (req, res) => {
 		}
 	});
 }
+// auth
+const auth = async (req, res) => {
+	res.status(200).send({code: 200, 
+		message: "El usuario esta autenticado.",
+		auth : true,
+	});
+}
 // update user
 const updateUser = async ( req, res ) =>{
 	let userData    = req.body;
@@ -107,6 +114,7 @@ const deleteUser = ( req, res ) =>{
 module.exports = {
 	signUp,
   login,
+	auth,
 	updateUser,
 	deleteUser,
 }
