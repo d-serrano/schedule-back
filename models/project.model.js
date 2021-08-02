@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const ProjectSchema = Schema({
     name            : { type: String, requiered : true},
+    company         : { type: String, requiered : true},
     hoursTotal      : { type: Number, requiered : true},
     hoursLeft       : { type: Number, default : 0},
     hoursUsed       : { type: Number, default : 0},

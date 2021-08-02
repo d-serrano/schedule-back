@@ -60,6 +60,13 @@ const login = async (req, res) => {
 						code: 200, 
 						message: "Ingreso exitoso.", 
 						accessToken  : jwt.createAccessToken( userStored ),
+						user : {
+							name : userStored.name,
+							isAdmin : userStored.isAdmin,
+							role : userStored.role,
+							email : userStored.email,
+							cellphone : userStored.cellphone,
+						}
 					});
 				}
 			} );
