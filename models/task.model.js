@@ -6,7 +6,7 @@ const TaskSchema = Schema({
     minutes         : { type: Number, requiered : true },
     timeWeight      : { type: Number, requiered : true },
     timeStimation   : { type: Number, requiered : false },
-    iTask           : { type: Boolean, default: false, default : false },
+    isTask           : { type: Boolean, default: false, default : false },
     requirement      : { type: String, requiered : true },
     state           : { type: String, requiered : false, default : 'pendiente' },
     description     : { type: String, requiered : false },
