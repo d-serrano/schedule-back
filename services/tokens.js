@@ -5,7 +5,12 @@ const { SECRET_KEY } = require ( '../config' );
 exports.createAccessToken =  user => {
     const playload ={
         id          : user.id,
-        isAdmin     : user.isAdmin,
+        name : user.name,
+        isAdmin : user.isAdmin,
+        role : user.role,
+        email : user.email,
+        cellphone : user.cellphone,
+        company : user.company,
         createToken : moment().unix(),
         exp: moment().add( 24, 'hours' ).unix()
     }
