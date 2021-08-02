@@ -9,7 +9,7 @@ const createTask = async ( req, res ) =>{
 	const { hoursLeft } = req.params;
 	// ceate task
 	const task = new Task( body );
-	task.startDate  = moment().unix();
+	task.requirmentDate  = moment().unix();
 	try {
 		// update project
 		const updatedProject = await  Project.findByIdAndUpdate( 
@@ -19,7 +19,7 @@ const createTask = async ( req, res ) =>{
 		);
 			// save task
 		await task.save();
-		res.status( 200 ).send( { message: 'Tarea creada correctamente', result : {task, updatedProject} } );
+		res.status( 200 ).send( { message: 'Tarea creada correctamente', task}  );
 	} catch (error) {
 		res.status( 500 ).send( { message: 'Hubo un error al crear a tarea', error } );
 	}

@@ -13,11 +13,8 @@ api.post( "/create",
   [
     check( 'project', 'Se debe especificar el proyecto' ).notEmpty(),
     check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
-    check( 'hours', 'El # de horas es obligatorio' ).notEmpty(),
-    check( 'hourWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
-    check( 'member', 'El usuario es obligatorio' ).notEmpty(),
+    check( 'requirement', 'El requerimiento es obligatorio' ).notEmpty(),
     validator.validator,
-    updateHours.updateHours
   ],
   TaskController.createTask
 );
@@ -28,8 +25,20 @@ api.get( "/:id",
 // update task
 api.put( "/update/:id",
   [ 
+    check( 'hours', 'El # de minutos es obligatorio' ).notEmpty(),
+    check( 'hourWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
+    validator.validator,
+    md_auth.ensureAuth,
+    md_auth.isAdmin,
+  ], 
+  TaskController.updateTask 
+);
+// set requeriment as task
+api.put( "/setTask/:id",
+  [ 
     check( 'hours', 'Este endpoint no actualiza las horas' ).isEmpty(),
     check( 'hourWeight', 'Este endpoint no actualiza las horas' ).isEmpty(),
+    check( 'member', 'El usuario es obligatorio' ).notEmpty(),
     validator.validator,
     md_auth.ensureAuth,
     md_auth.isAdmin,
