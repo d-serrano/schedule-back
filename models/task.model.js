@@ -9,6 +9,7 @@ const TaskSchema = Schema({
     requirment      : { type: String, requiered : true },
     currentState    : { type: String, requiered : false },
     description     : { type: String, requiered : false },
+    state           : { type: String, requiered : false, default : 'pendiente' },
     finished        : { type: Boolean, default: false },
     success         : { type: Boolean, default: false },
     startDate       : { type: Date, required : true },
