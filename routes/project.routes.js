@@ -9,7 +9,8 @@ const api =  express.Router();
 // create 
 api.post( "/create",
   [
-    check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
+    check( 'name', 'El nombre es del proyecto obligatorio' ).notEmpty(),
+    check( 'company', 'El nombre de la compañia obligatorio' ).notEmpty(),
     check( 'hoursTotal', 'El # de horas totales es obligatorio' ).notEmpty(),
   ],
   [ md_auth.ensureAuth,

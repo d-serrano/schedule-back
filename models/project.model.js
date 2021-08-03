@@ -4,14 +4,19 @@ const Schema = mongoose.Schema;
 const ProjectSchema = Schema({
     name            : { type: String, requiered : true},
     company         : { type: String, requiered : true},
-    hoursTotal      : { type: Number, requiered : true},
-    hoursLeft       : { type: Number, default : 0},
-    hoursUsed       : { type: Number, default : 0},
+    months          : { type: Number, requiered : true },
+    hoursTotal      : [{ type: Number, requiered : true}],
     description     : { type: String, requiered : false},
     finished        : { type: Boolean, default: false },
     startDate       : { type: Date, required : true },
     finishDate      : { type: Date, default :null },
-    tasks         :  [{ type: Schema.ObjectId, ref: 'Task' }],  
+    tasks           : [{ type: Schema.ObjectId, ref: 'Task' }], 
+    time            : [{
+        hours               : { type: Number, requiered : true },
+        hoursLeft           : { type: Number, requiered : true },
+        minutes             : { type: Number, requiered : true },
+        minutesLeft         : { type: Number, requiered : true },
+    }]
 });
 
 module.exports = mongoose.model( "Project", ProjectSchema );

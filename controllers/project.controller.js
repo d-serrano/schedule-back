@@ -27,12 +27,15 @@ const create = async ( req, res ) =>{
 }
 
 const getProyects = async ( req, res ) =>{
-	let { offset, slice } = req.query;
+	let { offset, slice, company } = req.query;
 	offset = parseInt(offset) || 0;
 	slice = parseInt(slice) || 10;
 	try {
 		// find projects
-		let projects = await Project.find({ });
+		let projects;
+		if ( company ) { projects = await Project.find({ company }); }
+		else { projects = await Project.find(); }
+		
 		
 		res.status(200).send({ projects });
 	} catch (error) {
