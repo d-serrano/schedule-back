@@ -15,7 +15,8 @@ const create = async ( req, res ) =>{
   if ( !errors.isEmpty() ) return  res.status( 400 ).json({ errores : errors.array() });
 	// ceate project
 	const project = new Project( body );
-	project.startDate  = moment().unix();
+	project.creationDate  = moment();
+
 	project.hoursLeft  = project.hoursTotal;
 	try {
 		// save project
