@@ -4,12 +4,13 @@ const Project = require( '../models/project.model');
 
 // create task
 const createTask = async ( req, res ) =>{
-	const { body } = req;
+	const { body, user,user : { name, id } } = req;
 	const { project : projectId } = req.body;
 	const { hoursLeft } = req.params;
 	// ceate task
 	const task = new Task( body );
-	task.requirmentDate  = moment().unix();
+	task.requirmentDate  = moment();
+	task.requieredUser ={ id, name	};
 	try {
 		// update project
 		const updatedProject = await  Project.findByIdAndUpdate( 

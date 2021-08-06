@@ -7,6 +7,10 @@ const TaskSchema = Schema({
     timeWeight      : { type: Number, requiered : true },
     isTask          : { type: Boolean, default: false, default : false },
     requirement     : { type: String, requiered : true },
+    requieredUser   : {
+        name            : { type: String , required: true },
+        id              : { type: Schema.ObjectId, ref: 'User', required: true }
+    },
     state           : { type: String, requiered : false, default : 'pendiente' },
     description     : { type: String, requiered : false },
     finished        : { type: Boolean, default: false },

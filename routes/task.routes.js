@@ -15,6 +15,7 @@ api.post( "/create",
     check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
     check( 'requirement', 'El requerimiento es obligatorio' ).notEmpty(),
     validator.validator,
+    md_auth.ensureAuth,
   ],
   TaskController.createTask
 );
