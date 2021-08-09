@@ -5,6 +5,7 @@ const cors = require('cors');
 const { API_NAME, API_VERSION } = require("./config");
 // routes
 const UserRoutes = require('./routes/user.routes');
+const RequirementRoutes = require('./routes/requirements.routes');
 const TaskRoutes = require('./routes/task.routes');
 const Projectoutes = require('./routes/project.routes');
 // crear el servidor
@@ -24,6 +25,7 @@ const port = process.env.PORT || 3977;
 app.use( express.json() );
 // app routes() 
 app.use( `/${ API_NAME }/${ API_VERSION }/users`, UserRoutes );
+app.use( `/${ API_NAME }/${ API_VERSION }/requirements`, RequirementRoutes );
 app.use( `/${ API_NAME }/${ API_VERSION }/tasks`, TaskRoutes );
 app.use( `/${ API_NAME }/${ API_VERSION }/projects`, Projectoutes );
 // Start app

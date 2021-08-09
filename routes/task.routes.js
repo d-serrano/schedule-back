@@ -9,49 +9,6 @@ const validator = require( '../middlewares/validator' );
 const { check } = require( 'express-validator' );
 const api =  express.Router();
 
-// ******************************************************
-// *****************   Requeriments   *******************
-// ******************************************************
-
-// create requirement
-api.post( "/create-req",
-  [
-    check( 'project', 'Se debe especificar el proyecto' ).notEmpty(),
-    check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
-    check( 'requirement', 'El requerimiento es obligatorio' ).notEmpty(),
-    check( 'contact', 'Un contacto es requeirdo' ).notEmpty(),
-    validator.validator,
-    md_auth.ensureAuth,
-  ],
-  TaskController.createTask
-);
-// get task
-api.get( "/:id",
-  TaskController.getTask
-);
-
-// update req
-api.put( "/update-req/:id",
-  [ 
-    validator.validator,
-    md_auth.ensureAuth,
-  ], 
-  TaskController.updateReq 
-);
-
-// set requeriment as task
-api.put( "/setTask/:id",
-[ 
-  check( 'member', 'El usuario es obligatorio' ).notEmpty(),
-  validator.validator,
-  md_auth.ensureAuth,
-  md_auth.isAdmin,
-], 
-TaskController.updateTask 
-);
-// ******************************************************
-// *****************      tasks       *******************
-// ******************************************************
 // update task
 api.put( "/update/:id",
   [ 
