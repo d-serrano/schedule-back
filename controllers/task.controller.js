@@ -8,10 +8,8 @@ const createTask = async ( req, res ) =>{
 	const { project : projectId } = req.body;
 	const { hoursLeft } = req.params;
 	// ceate task
-	console.log({ body })
 	const task = new Task( body );
 	task.requirmentDate  = moment();
-	task.contact  = body.contact || user.name +' : ' + user.cellphone;
 	task.requieredUser ={ id, name	};
 	try {
 		// update project
