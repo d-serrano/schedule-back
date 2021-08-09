@@ -8,8 +8,13 @@ const validator = require( '../middlewares/validator' );
 // validation
 const { check } = require( 'express-validator' );
 const api =  express.Router();
-// create task
-api.post( "/create",
+
+// ******************************************************
+// *****************   Requeriments   *******************
+// ******************************************************
+
+// create requirement
+api.post( "/create-req",
   [
     check( 'project', 'Se debe especificar el proyecto' ).notEmpty(),
     check( 'name', 'El nombre es de la tarea obligatorio' ).notEmpty(),
@@ -24,23 +29,34 @@ api.post( "/create",
 api.get( "/:id",
   TaskController.getTask
 );
+
+// update req
+api.put( "/update-req/:id",
+  [ 
+    validator.validator,
+    md_auth.ensureAuth,
+  ], 
+  TaskController.updateReq 
+);
+
+// set requeriment as task
+api.put( "/setTask/:id",
+[ 
+  check( 'member', 'El usuario es obligatorio' ).notEmpty(),
+  validator.validator,
+  md_auth.ensureAuth,
+  md_auth.isAdmin,
+], 
+TaskController.updateTask 
+);
+// ******************************************************
+// *****************      tasks       *******************
+// ******************************************************
 // update task
 api.put( "/update/:id",
   [ 
-    check( 'hours', 'El # de minutos es obligatorio' ).notEmpty(),
-    check( 'hourWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
-    validator.validator,
-    md_auth.ensureAuth,
-    md_auth.isAdmin,
-  ], 
-  TaskController.updateTask 
-);
-// set requeriment as task
-api.put( "/setTask/:id",
-  [ 
-    check( 'hours', 'Este endpoint no actualiza las horas' ).isEmpty(),
-    check( 'hourWeight', 'Este endpoint no actualiza las horas' ).isEmpty(),
-    check( 'member', 'El usuario es obligatorio' ).notEmpty(),
+    check( 'time', 'El # de minutos es obligatorio' ).notEmpty(),
+    check( 'timeWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
     validator.validator,
     md_auth.ensureAuth,
     md_auth.isAdmin,
@@ -48,10 +64,10 @@ api.put( "/setTask/:id",
   TaskController.updateTask 
 );
 // update task with Hours
-api.put( "/update-hours/:id",
+api.put( "/update-time/:id",
   [ 
-    check( 'hours', 'El # de horas es obligatorio' ).notEmpty(),
-    check( 'hourWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
+    check( 'time', 'El # de horas es obligatorio' ).notEmpty(),
+    check( 'timeWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
     validator.validator,
     md_auth.ensureAuth,
     md_auth.isAdmin,

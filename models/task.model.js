@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = Schema({
     name            : { type: String, requiered : true },
-    minutes         : { type: Number, requiered : true },
+    time            : { type: Number, requiered : true },
     timeWeight      : { type: Number, requiered : true },
     isTask          : { type: Boolean, default: false, default : false },
     requirement     : { type: String, requiered : true },

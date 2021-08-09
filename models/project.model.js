@@ -13,8 +13,6 @@ const ProjectSchema = Schema({
     finishDate      : { type: Date, default :null },
     tasks           : [{ type: Schema.ObjectId, ref: 'Task' }], 
     time            : [{
-        hours               : { type: Number, requiered : true },
-        hoursLeft           : { type: Number, requiered : true },
         minutes             : { type: Number, requiered : true },
         minutesLeft         : { type: Number, requiered : true },
     }]

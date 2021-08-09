@@ -2,7 +2,10 @@ const moment = require ('moment');
 const Task = require( '../models/task.model' ); 
 const Project = require( '../models/project.model');
 
-// create task
+// ********************************************************************************
+// ******************************   Requeriments   ********************************
+// ********************************************************************************
+// create requirement
 const createTask = async ( req, res ) =>{
 	const { body, user,user : { name, id } } = req;
 	const { project : projectId } = req.body;
@@ -20,11 +23,12 @@ const createTask = async ( req, res ) =>{
 		);
 			// save task
 		await task.save();
-		res.status( 200 ).send( { message: 'Tarea creada correctamente', task}  );
+		res.status( 200 ).send( { message: 'Requerimiento creado correctamente', task}  );
 	} catch (error) {
 		res.status( 500 ).send( { message: 'Hubo un error al crear a tarea', error } );
 	}
 }
+
 // get task
 const getTask = async ( req, res ) =>{
 	const { id } = req.params;
@@ -37,22 +41,62 @@ const getTask = async ( req, res ) =>{
 	}
 
 }
-// update task
-const updateTask = async ( req, res ) =>{
+
+// update requirement
+const updateReq = async ( req, res ) =>{
+	
 	const { isUpdatedHours } = res.locals
 	const { body } = req
 	const { id } = req.params
+	const { role } = req.user
+
+	if(  role ){
+		return res.status( 401 ).send( { code: 401, message: 'No puedes editar un requerimiento' } );
+	}
 	try {
 		// find task
 		let task = await Task.findById( id );
-		if( !task ){ throw 'No se encontro la tara a actualizar' }
-
+		if( !task ){ throw 'No se encontro el requirimiento a actualizar' }
+		if( task.isTask ){ 
+			return res.status( 400 ).send( { 
+				code: 400, 
+				message: 'No puedes editar un requerimiento que ya ha sido registrado como tarea'
+			} );
+		}
 		// update task
 		const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
-		res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours} } );
+		res.status( 200 ).send( { message: 'Requerimiento actualizado correctamente', updatedTask} );
 	} catch (error) {
-		res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );
+		res.status( 400 ).send( { code: 400, message: 'El requerimiento no existe', error } );
 	}
+}
+
+// Set As Task
+const setTask = async ( req, res ) =>{
+	
+}
+
+// **********************************************************************************
+// *******************************      tasks       *********************************
+// **********************************************************************************
+
+// update task
+const updateTask = async ( req, res ) =>{
+	console.log( 'update task...')
+	// const { isUpdatedHours } = res.locals
+	// const { body } = req
+	// const { id } = req.params
+	// try {
+	// 	// find task
+	// 	let task = await Task.findById( id );
+	// 	if( !task ){ throw 'No se encontro la tara a actualizar' }
+
+	// 	// update task
+	// 	const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
+	// 	res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours} } );
+	// } catch (error) {
+	// 	res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );
+	// }
 }
 
 const updateTaskHours = async ( req, res ) => {
@@ -81,6 +125,7 @@ const deleteTask = async ( req, res ) =>{
 module.exports = {
 	createTask,
   getTask,
+	updateReq,
 	updateTask,
 	updateTaskHours,
   deleteTask
