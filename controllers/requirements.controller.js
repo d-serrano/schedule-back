@@ -33,7 +33,7 @@ const getReq = async ( req, res ) =>{
 	try {
 		// find task
 		let task = await Task.findById( id );
-		if( !task ){ throw 'No se encontro la tara a actualizar' }
+		if( !task ){ throw 'No se encontro el requerimiento' }
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'No se ha podido obtener la tarea', error } );
 	}
@@ -52,7 +52,7 @@ const updateReq = async ( req, res ) =>{
 		return res.status( 401 ).send( { code: 401, message: 'No puedes editar un requerimiento' } );
 	}
 	try {
-		// find task
+		// find requeriment
 		let task = await Task.findById( id );
 		if( !task ){ throw 'No se encontro el requirimiento a actualizar' }
 		if( task.isTask ){ 
@@ -61,8 +61,8 @@ const updateReq = async ( req, res ) =>{
 				message: 'No puedes editar un requerimiento que ya ha sido registrado como tarea'
 			} );
 		}
-		// update task
-		const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
+		// update requeriment
+		const updatedTask = await Task.findByIdAndUpdate( id , body, { returnOriginal : false } );
 		res.status( 200 ).send( { message: 'Requerimiento actualizado correctamente', updatedTask} );
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'El requerimiento no existe', error } );

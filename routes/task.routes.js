@@ -9,6 +9,10 @@ const validator = require( '../middlewares/validator' );
 const { check } = require( 'express-validator' );
 const api =  express.Router();
 
+api.get( "/:id",
+TaskController.getTask
+);
+
 // update task
 api.put( "/update/:id",
   [ 
