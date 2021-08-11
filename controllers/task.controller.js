@@ -4,11 +4,13 @@ const Project = require( '../models/project.model');
 
 // get task
 const getTask = async ( req, res ) =>{
+	console.log('get')
 	const { id } = req.params;
 	try {
 		// find task
 		let task = await Task.findById( id );
 		if( !task ){ throw 'No se encontro la tara a actualizar' }
+		res.status( 200 ).send( { code: 200, task } );
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'No se ha podido obtener la tarea', error } );
 	}
