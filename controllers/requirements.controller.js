@@ -1,4 +1,5 @@
-const moment = require ('moment');
+//const moment = require ('moment');
+const moment = require('moment-timezone');
 const Task = require( '../models/task.model' ); 
 const Project = require( '../models/project.model');
 
@@ -10,8 +11,11 @@ const createReq = async ( req, res ) =>{
 	const { hoursLeft } = req.params;
 	// ceate task
 	const task = new Task( body );
-	task.requirmentDate  = moment();
+	task.requirmentDate  =  moment().tz('America/Bogota').toISOString();
 	task.requieredUser ={ id, name	};
+
+	console.log( moment().tz('America/Bogota').toISOString())
+	console.log( task.requirmentDate )
 	try {
 		// update project
 		const updatedProject = await  Project.findByIdAndUpdate( 
