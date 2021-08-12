@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const ProjectSchema = Schema({
     name            : { type: String, requiered : true},
     company         : { type: String, requiered : true},
+    type            : { type: String, requiered : true},
     months          : { type: Number, requiered : true },
     hoursTotal      : [{ type: Number, requiered : true}],
     description     : { type: String, requiered : false},
@@ -14,7 +15,7 @@ const ProjectSchema = Schema({
     tasks           : [{ type: Schema.ObjectId, ref: 'Task' }], 
     time            : [{
         minutes             : { type: Number, requiered : true },
-        minutesLeft         : { type: Number, requiered : true },
+        minutesUsed         : { type: Number, requiered : true },
     }]
 });
 
