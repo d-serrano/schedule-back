@@ -4,7 +4,6 @@ const Project = require( '../models/project.model');
 
 // get task
 const getTask = async ( req, res ) =>{
-	console.log('get')
 	const { id } = req.params;
 	try {
 		// find task

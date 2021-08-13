@@ -14,8 +14,6 @@ const createReq = async ( req, res ) =>{
 	task.requirmentDate  =  moment().tz('America/Bogota').toISOString();
 	task.requieredUser ={ id, name	};
 
-	console.log( moment().tz('America/Bogota').toISOString())
-	console.log( task.requirmentDate )
 	try {
 		// update project
 		const updatedProject = await  Project.findByIdAndUpdate( 

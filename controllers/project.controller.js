@@ -53,7 +53,6 @@ const get = async ( req, res ) =>{
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'No se pueden obtener este proyecto', error } );
 	}
-  console.log(' get project')
 }
 
 // get tasks
@@ -65,7 +64,6 @@ const getTasks = async ( req, res ) =>{
 	try {
 		// find project
 		let project = await Project.findById( id ).populate('tasks');
-		console.log(' get tasks', { offset, slice, project })
 		if( !project ){ throw 'No se encontro lel Proyecto.' }
 		const { tasks } = project;
 		res.status(200).send({ tasks });
