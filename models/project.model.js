@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const ProjectSchema = Schema({
     name            : { type: String, requiered : true},
     company         : { type: String, requiered : true},
+    companyRef      : { type: String, requiered : true},
     type            : { type: String, requiered : true},
     months          : { type: Number, requiered : true },
     hoursTotal      : [{ type: Number, requiered : true}],

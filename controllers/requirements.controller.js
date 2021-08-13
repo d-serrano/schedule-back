@@ -23,6 +23,12 @@ const createReq = async ( req, res ) =>{
       { hoursLeft : hoursLeft , $push: { tasks: task._id } }, 
       {returnOriginal: false}
 		);
+		const { type, companyRef, tasks } = updatedProject;
+		let typeRef = type.slice( 0, 1 ).toUpperCase();
+		let yearRef = moment().toDate().getFullYear();
+		let numberRef = tasks.length.toString().padStart( 4, '0' );
+
+		task.ref = `${ companyRef }-${ typeRef }${ numberRef }-${ yearRef }.`.replace('.','');
 			// save task
 		await task.save();
 		res.status( 200 ).send( { message: 'Requerimiento creado correctamente', task}  );
