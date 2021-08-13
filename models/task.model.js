@@ -5,6 +5,7 @@ const TaskSchema = Schema({
     name            : { type: String, requiered : true },
     time            : { type: Number, requiered : true },
     timeWeight      : { type: Number, requiered : true },
+    lastRef         : { type: Number, default : 0 },
     isTask          : { type: Boolean, default: false, default : false },
     requirement     : { type: String, requiered : true },
     ref             : { type: String, requiered : true },
@@ -18,7 +19,7 @@ const TaskSchema = Schema({
         id              : { type: Schema.ObjectId, ref: 'User', required: true }
     },
     state           : { type: String, requiered : false, default : 'pendiente' },
-    description     : { type: String, requiered : false },
+    description     : { type: String, default :'' },
     finished        : { type: Boolean, default: false },
     success         : { type: Boolean, default: false },
     requirmentDate  : { type: Date, required : true },
