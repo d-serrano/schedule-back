@@ -18,6 +18,10 @@ const TaskSchema = Schema({
         name            : { type: String , required: true },
         id              : { type: Schema.ObjectId, ref: 'User', required: true }
     },
+    member   : {
+        name            : { type: String , required: true },
+        id              : { type: Schema.ObjectId, ref: 'User', required: true }
+    },
     state           : { type: String, requiered : false, default : 'pendiente' },
     description     : { type: String, default :'' },
     finished        : { type: Boolean, default: false },
@@ -25,7 +29,6 @@ const TaskSchema = Schema({
     requirmentDate  : { type: Date, required : true },
     startDate       : { type: Date, default : null },
     finishDate      : { type: Date, default :null },
-    member          : { type: Schema.ObjectId, ref: 'User' },  
     project         : { type: Schema.ObjectId, ref: 'Project' },
 });
 

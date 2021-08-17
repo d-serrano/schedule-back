@@ -48,7 +48,6 @@ api.put( "/set-time/:id",
 [ 
   check( 'description', 'Debe escribir una descripción' ).notEmpty(),
   check( 'success', 'Debe espeificar si se completo con exito' ).notEmpty(),
-  check( 'member', 'El usuario de Got it es obligatorio' ).notEmpty(),
   check( 'time', 'El tiempo es obligatorio' ).notEmpty(),
   check( 'timeWeight', 'El peso del tiempo es obligatorio' ).notEmpty(),
   validator.validator,

@@ -6,7 +6,7 @@ const Project = require( '../models/project.model');
 
 // create requirement
 const createReq = async ( req, res ) =>{
-	const { body, user,user : { name, id } } = req;
+	const { body, user : { name, id } } = req;
 	const { project : projectId } = req.body;
 	const { hoursLeft } = req.params;
 	// ceate task
@@ -80,15 +80,16 @@ const updateReq = async ( req, res ) =>{
 // Set As Task
 const setAsTask = async ( req, res ) =>{
 	const { task, project } = res.locals
-	const { member, success, time, timeWeight, finished, description } = req.body
+	const { member, success, time, timeWeight, finished, description, user } = req.body
 	// task object
 	// from body requets
 	task.description = description;
-	task.member = member;
+	task.member = user;
 	task.time = time;
 	task.timeWeight = timeWeight;
 	task.success = success;
 
+	task.isTask = true;
 	task.startDate = moment().tz('America/Bogota').toISOString();;
 	task.finished = task.finished.finished || success || false;
 	task.finishDate = task.finished? task.startDate : null;
