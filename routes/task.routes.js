@@ -10,7 +10,7 @@ const { check } = require( 'express-validator' );
 const api =  express.Router();
 
 api.get( "/:id",
-TaskController.getTask
+  TaskController.getTask
 );
 
 // update task
@@ -25,15 +25,14 @@ api.put( "/update/:id",
   TaskController.updateTask 
 );
 // update task with Hours
-api.put( "/update-time/:id",
+api.put( "/set-time/:id",
   [ 
-    check( 'time', 'El # de horas es obligatorio' ).notEmpty(),
-    check( 'timeWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
+    check( 'time', 'El tiempo es obligatorio' ).notEmpty(),
+    check( 'timeWeight', 'El peso del tiempo es obligatorio' ).notEmpty(),
     validator.validator,
     md_auth.ensureAuth,
     md_auth.isAdmin,
-    updateHours.hoursChanged,
-    updateHours.updateHours
+    updateHours.timeChanged,
   ], 
   TaskController.updateTaskHours 
 );

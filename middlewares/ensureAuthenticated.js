@@ -36,13 +36,13 @@ exports.isAdmin = ( req, res, next )=>{
 exports.isMember = ( req, res, next ) =>{
     const token = req.headers.authorization.replace(/['"]+/g, "");
     try {
-       var playload = jwt.decode( token, SECRET_KEY );
-       if( playload.role !== 'memeber' ){
+       var payload = jwt.decode( token, SECRET_KEY );
+       if( payload.role !== 'member' ){
         return res.status(404).send({ messange: "Debe spertenecer a Got It para realizar esta accion" });
        }
     } catch (error) {
         return res.status(404).send({ message: 'Token invalido.' })
     }
-    req.user=playload;
+    req.user=payload;
     next();
 }

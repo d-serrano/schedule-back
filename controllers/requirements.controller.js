@@ -79,7 +79,48 @@ const updateReq = async ( req, res ) =>{
 
 // Set As Task
 const setAsTask = async ( req, res ) =>{
+	const { task, project } = res.locals
+	const { member, success, time, timeWeight, finished, description } = req.body
+	// task object
+	// from body requets
+	task.description = description;
+	task.member = member;
+	task.time = time;
+	task.timeWeight = timeWeight;
+	task.success = success;
+
+	task.startDate = moment().tz('America/Bogota').toISOString();;
+	task.finished = task.finished.finished || success || false;
+	task.finishDate = task.finished? task.startDate : null;
+	task.state = finished? 'cerrado' : 'activo';
 	
+	console.log('req as task', { project , projectTime : project.timeUsed });
+	delete project.tasks;
+	try {
+		const { id } = req.params
+		// update task
+		const updatedTask = await Task.findByIdAndUpdate( id , task, { returnOriginal : false } );
+		// update project
+		const projectQuery = { _id: project.id , "time._id": project.arrayId } 
+		const updateProject = { 
+			$set : { 'time.$.minutesUsed': 40 }
+		 }
+		 console.log(' enviar  ', { updateProject })
+		const updatedProject = await Project.updateOne( 
+			projectQuery,
+			updateProject, 
+			{ returnOriginal : false } 
+		);
+		console.log(' recibido  ', { updatedProject })
+
+		res.status( 200 ).send( { 
+			message: 'Requerimiento actualizadoa tarea', 
+			updatedTask, 
+			updatedProject
+		}  );
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'Error al actualizar la tarea', error } );
+	}
 }
 
 

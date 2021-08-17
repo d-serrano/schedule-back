@@ -1,46 +1,41 @@
 const Project = require( '../models/project.model');
 const Task = require( '../models/task.model');
-exports.updateHours = async ( req, res, next ) =>{
-  const { project : projectId, hours, hourWeight } = req.body;
-  const { prevHours } = res.locals;
-  //
-  if ( !hours && !hourWeight ) { 
-    res.locals.isUpdatedHours = false;
-    return  next();
-  }
-  let prev = prevHours || 0;
+
+const updateTime = async ( projectId, time, timeWeight, prevTime ) =>{
   try {
     let project = await Project.findById(  projectId )
     if( !project ) { throw 'No se ha encontrado proyecto para esta tarea' }
     // changed hours in project
-
-    let hoursLeft =  project.hoursLeft + prev - hours * hourWeight ;
-    // send to locals
-    req.params.hoursLeft = hoursLeft;
-    next();
+    const projectTime = project.time[ project.currentMonth - 1 ];
+    const timeUsed =  projectTime.minutesUsed - prevTime + time * timeWeight ;
+    // set new time
+    let projectData = { timeUsed, id : projectId, arrayId :  project.time[ project.currentMonth - 1 ]._id };
+    console.log( 'holi', projectData)
+    return  projectData;
   } catch (error) {
-    res.status( 500 ).send( { 
-      message: 'Hubo un error al vincular con proyecto', error 
-    } );
+    throw{ message : 'Hubo un error al vincular con proyecto', error} 
   }
 }
 
-exports.hoursChanged = async ( req, res, next ) => {
+exports.timeChanged = async ( req, res, next ) => {
   const { id } = req.params;
-  
+  const { time, timeWeight } = req.body;
   try {
-    // obtein tasks
+    // obtein requeriment
     let task = await Task.findById( id );
-    if( !task ){ throw 'No se encontro la tara a actualizar' }
-    res.locals.task = task;
+    if( !task ){ throw 'No se encontro la tarea a actualizar' }
     req.body.project = task.project;
     // hours after update
-    res.locals.prevHours = task.hourWeight * task.hours;
-    res.locals.isUpdatedHours = true;
+    if( !time && !timeWeight ){
+      next();
+    }
+    let prevTime = task.time ? task.timeWeight * task.time : 0;
+    res.locals.task = task;
+    res.locals.project = await updateTime( task.project, time, timeWeight, prevTime );
     next();
   } catch (error) { 
     res.status( 500 ).send( { 
-      message: 'Hubo un error al corregir las horas de la tarea', error 
+      message: 'Hubo un error al cambiar el tiempo de la tarea', error 
     } );
   }
 }

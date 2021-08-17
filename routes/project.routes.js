@@ -18,14 +18,17 @@ api.post( "/create",
   ], 
   Projectcontroller.create
 );
+
 // get projects
 api.get( "/",
   Projectcontroller.getProyects
 );
+
 // get 
 api.get( "/:id",
   Projectcontroller.get
 );
+
 // get  tasks from project
 api.get( "/:id/tasks",
   Projectcontroller.getTasks

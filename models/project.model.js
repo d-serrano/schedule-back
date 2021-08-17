@@ -7,6 +7,7 @@ const ProjectSchema = Schema({
     companyRef      : { type: String, requiered : true},
     type            : { type: String, requiered : true},
     months          : { type: Number, requiered : true },
+    currentMonth    : { type: Number, default : 1 },
     hoursTotal      : [{ type: Number, requiered : true}],
     description     : { type: String, requiered : false},
     finished        : { type: Boolean, default: false },
