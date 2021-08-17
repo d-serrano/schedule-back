@@ -91,9 +91,9 @@ const setAsTask = async ( req, res ) =>{
 
 	task.isTask = true;
 	task.startDate = moment().tz('America/Bogota').toISOString();;
-	task.finished = task.finished.finished || success || false;
+	task.finished = task.finished || success || false;
 	task.finishDate = task.finished? task.startDate : null;
-	task.state = finished? 'cerrado' : 'activo';
+	task.state = task.finished? 'cerrado' : 'activo';
 	
 	delete project.tasks;
 	try {
