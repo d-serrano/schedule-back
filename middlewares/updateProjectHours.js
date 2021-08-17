@@ -10,7 +10,7 @@ const updateTime = async ( projectId, time, timeWeight, prevTime ) =>{
     const timeUsed =  projectTime.minutesUsed - prevTime + time * timeWeight ;
     // set new time
     let projectData = { timeUsed, id : projectId, arrayId :  project.time[ project.currentMonth - 1 ]._id };
-    console.log( 'holi', projectData)
+
     return  projectData;
   } catch (error) {
     throw{ message : 'Hubo un error al vincular con proyecto', error} 

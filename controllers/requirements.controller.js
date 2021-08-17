@@ -94,7 +94,6 @@ const setAsTask = async ( req, res ) =>{
 	task.finishDate = task.finished? task.startDate : null;
 	task.state = finished? 'cerrado' : 'activo';
 	
-	console.log('req as task', { project , projectTime : project.timeUsed });
 	delete project.tasks;
 	try {
 		const { id } = req.params
@@ -103,20 +102,19 @@ const setAsTask = async ( req, res ) =>{
 		// update project
 		const projectQuery = { _id: project.id , "time._id": project.arrayId } 
 		const updateProject = { 
-			$set : { 'time.$.minutesUsed': 40 }
+			$set : { 'time.$.minutesUsed': project.timeUsed  }
 		 }
-		 console.log(' enviar  ', { updateProject })
 		const updatedProject = await Project.updateOne( 
 			projectQuery,
 			updateProject, 
 			{ returnOriginal : false } 
 		);
-		console.log(' recibido  ', { updatedProject })
+
 
 		res.status( 200 ).send( { 
-			message: 'Requerimiento actualizadoa tarea', 
+			message: 'Requerimiento actualizadoa tarea',
+			ProjetTimeUsed : project.timeUsed ,
 			updatedTask, 
-			updatedProject
 		}  );
 	} catch (error) {
 		res.status( 400 ).send( { code: 400, message: 'Error al actualizar la tarea', error } );
