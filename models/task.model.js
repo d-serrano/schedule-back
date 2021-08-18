@@ -6,7 +6,7 @@ const TaskSchema = Schema({
     time            : { type: Number, requiered : true },
     timeWeight      : { type: Number, requiered : true },
     lastRef         : { type: Number, default : 0 },
-    isTask          : { type: Boolean, default: false, default : false },
+    isTask          : { type: Boolean, default: false},
     requirement     : { type: String, requiered : true },
     ref             : { type: String, requiered : true },
     contact         : {
@@ -20,6 +20,7 @@ const TaskSchema = Schema({
     },
     member   : {
         name            : { type: String , required: true },
+        email           : { type: String , required: true },
         id              : { type: Schema.ObjectId, ref: 'User', required: true }
     },
     state           : { type: String, requiered : false, default : 'pendiente' },
