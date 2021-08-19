@@ -50,7 +50,7 @@ const updateTask = async ( req, res ) =>{
 
 
 		res.status( 200 ).send( { 
-			message: 'Requerimiento actualizadoa tarea',
+			message: 'Tarea actualizada',
 			ProjetTimeUsed : project.timeUsed ,
 			updatedTask, 
 		}  );
