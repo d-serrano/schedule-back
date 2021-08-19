@@ -3,8 +3,12 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = Schema({
     name            : { type: String, requiered : true },
-    time            : { type: Number, requiered : true },
-    timeWeight      : { type: Number, requiered : true },
+    time            : [{
+        time            :{ type: Number, requiered : true },
+        valueWeight     :{ type: Number, requiered : true },
+        startDate       : { type: Date, default : null },
+        finishDate      : { type: Date, default :null },
+    }],
     lastRef         : { type: Number, default : 0 },
     isTask          : { type: Boolean, default: false},
     requirement     : { type: String, requiered : true },
