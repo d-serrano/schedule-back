@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = Schema({
     name            : { type: String, requiered : true },
-    time            : [{
-        time            :{ type: Number, requiered : true },
+    time            : { type: Number, requiered : true },
+    sesions            : [{
+        value            :{ type: Number, requiered : true },
         valueWeight     :{ type: Number, requiered : true },
         startDate       : { type: Date, default : null },
         finishDate      : { type: Date, default :null },
