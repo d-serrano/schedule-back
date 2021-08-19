@@ -18,21 +18,45 @@ const getTask = async ( req, res ) =>{
 
 // update task
 const updateTask = async ( req, res ) =>{
-	console.log( 'update task...')
-	// const { isUpdatedHours } = res.locals
-	// const { body } = req
-	// const { id } = req.params
-	// try {
-	// 	// find task
-	// 	let task = await Task.findById( id );
-	// 	if( !task ){ throw 'No se encontro la tara a actualizar' }
+	const { task, project } = res.locals
+	const { success, time, timeWeight, finished, description, user } = req.body
+	// task object
+	// from body requets
+	task.description = description;
+	task.member = user;
+	task.time = time;
+	task.timeWeight = timeWeight;
+	task.success = success;
+	task.finishDate = task.finishDate || moment().tz('America/Bogota').toISOString();
+	task.finished = finished || success || false;
 
-	// 	// update task
-	// 	const updatedTask = await Task.findByIdAndUpdate( task._id , body, { returnOriginal : false } );
-	// 	res.status( 200 ).send( { message: 'Tarea actualizada correctamente', result : {updatedTask, isUpdatedHours} } );
-	// } catch (error) {
-	// 	res.status( 400 ).send( { code: 400, message: 'La tarea no existe', error } );
-	// }
+	task.state = task.finished? 'cerrado' : 'activo';
+	
+	delete project.tasks;
+	try {
+		const { id } = req.params
+		// update task
+		const updatedTask = await Task.findByIdAndUpdate( id , task, { returnOriginal : false } );
+		// update project
+		const projectQuery = { _id: project.id , "time._id": project.arrayId } 
+		const updateProject = { 
+			$set : { 'time.$.minutesUsed': project.timeUsed  }
+		 }
+		const updatedProject = await Project.updateOne( 
+			projectQuery,
+			updateProject, 
+			{ returnOriginal : false } 
+		);
+
+
+		res.status( 200 ).send( { 
+			message: 'Requerimiento actualizadoa tarea',
+			ProjetTimeUsed : project.timeUsed ,
+			updatedTask, 
+		}  );
+	} catch (error) {
+		res.status( 400 ).send( { code: 400, message: 'Error al actualizar la tarea', error } );
+	}
 }
 
 const updateTaskHours = async ( req, res ) => {

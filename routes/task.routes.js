@@ -3,7 +3,7 @@ const express = require( 'express' );
 const TaskController = require( '../controllers/task.controller' );
 // midllewares
 const md_auth = require( '../middlewares/ensureAuthenticated' );
-const updateHours = require( '../middlewares/updateProjectHours' );
+const updateTime = require( '../middlewares/updateProjectHours' );
 const validator = require( '../middlewares/validator' );
 // validation
 const { check } = require( 'express-validator' );
@@ -20,7 +20,8 @@ api.put( "/update/:id",
     check( 'timeWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
     validator.validator,
     md_auth.ensureAuth,
-    md_auth.isAdmin,
+    md_auth.isMember,
+    updateTime.timeChanged
   ], 
   TaskController.updateTask 
 );
@@ -31,8 +32,8 @@ api.put( "/set-time/:id",
     check( 'timeWeight', 'El peso del tiempo es obligatorio' ).notEmpty(),
     validator.validator,
     md_auth.ensureAuth,
-    md_auth.isAdmin,
-    updateHours.timeChanged,
+    md_auth.isMember,
+    updateTime.timeChanged
   ], 
   TaskController.updateTaskHours 
 );

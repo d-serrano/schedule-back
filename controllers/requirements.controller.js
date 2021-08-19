@@ -80,7 +80,7 @@ const updateReq = async ( req, res ) =>{
 // Set As Task
 const setAsTask = async ( req, res ) =>{
 	const { task, project } = res.locals
-	const { member, success, time, timeWeight, finished, description, user } = req.body
+	const { success, time, timeWeight, finished, description, user } = req.body
 	// task object
 	// from body requets
 	task.description = description;
@@ -90,7 +90,7 @@ const setAsTask = async ( req, res ) =>{
 	task.success = success;
 
 	task.isTask = true;
-	task.startDate = moment().tz('America/Bogota').toISOString();;
+	task.startDate = moment().tz('America/Bogota').toISOString();
 	task.finished = task.finished || success || false;
 	task.finishDate = task.finished? task.startDate : null;
 	task.state = task.finished? 'cerrado' : 'activo';
