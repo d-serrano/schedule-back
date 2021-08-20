@@ -80,28 +80,34 @@ const updateReq = async ( req, res ) =>{
 // Set As Task
 const setAsTask = async ( req, res ) =>{
 	const { task, project } = res.locals
-	const { success, time, timeWeight, finished, description, user } = req.body
+	const { success, finished, description, sessions } = req.body
 	// task object
 	// from body requets
 	task.description = description;
-	task.member = user;
-	task.time = time;
-	task.timeWeight = timeWeight;
+	task.sesions = sessions;
+	task.member = {
+		name : req.user.name,
+		email : req.user.email,
+		id : req.user.id,
+	};
 	task.success = success;
 
 	task.isTask = true;
 	task.startDate = moment().tz('America/Bogota').toISOString();
-	task.finished = task.finished || success || false;
+	task.finished = task.finished || finished || success || false;
 	task.finishDate = task.finished? task.startDate : null;
 	task.state = task.finished? 'cerrado' : 'activo';
 	
 	delete project.tasks;
+
+	console.log( {  finished : finished, success : success} )
+	console.log( {  finished : task.finished, success : task.success} )
 	try {
 		const { id } = req.params
 		// update task
 		const updatedTask = await Task.findByIdAndUpdate( id , task, { returnOriginal : false } );
 		// update project
-		const projectQuery = { _id: project.id , "time._id": project.arrayId } 
+		const projectQuery = { _id: task.project , "time._id": project.arrayId } 
 		const updateProject = { 
 			$set : { 'time.$.minutesUsed': project.timeUsed  }
 		 }
@@ -113,7 +119,7 @@ const setAsTask = async ( req, res ) =>{
 
 
 		res.status( 200 ).send( { 
-			message: 'Requerimiento actualizadoa tarea',
+			message: 'Requerimiento actualizado a tarea',
 			ProjetTimeUsed : project.timeUsed ,
 			updatedTask, 
 		}  );
