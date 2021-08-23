@@ -16,8 +16,8 @@ api.get( "/:id",
 // update task
 api.put( "/update/:id",
   [ 
-    check( 'time', 'El # de minutos es obligatorio' ).notEmpty(),
-    check( 'timeWeight', 'El peso de la hora es obligatorio' ).notEmpty(),
+    check( 'requeriment', 'no puedes cambiar el requerimiento' ).isEmpty(),
+    check( 'name', 'no puedes cambiar el titulo del requerimiento' ).isEmpty(),
     validator.validator,
     md_auth.ensureAuth,
     md_auth.isMember,
@@ -28,8 +28,7 @@ api.put( "/update/:id",
 // update task with Hours
 api.put( "/set-time/:id",
   [ 
-    check( 'time', 'El tiempo es obligatorio' ).notEmpty(),
-    check( 'timeWeight', 'El peso del tiempo es obligatorio' ).notEmpty(),
+    check( 'sessions', 'El tiempo es obligatorio' ).notEmpty(),
     validator.validator,
     md_auth.ensureAuth,
     md_auth.isMember,

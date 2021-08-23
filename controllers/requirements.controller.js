@@ -100,8 +100,6 @@ const setAsTask = async ( req, res ) =>{
 	
 	delete project.tasks;
 
-	console.log( {  finished : finished, success : success} )
-	console.log( {  finished : task.finished, success : task.success} )
 	try {
 		const { id } = req.params
 		// update task

@@ -19,39 +19,45 @@ const getTask = async ( req, res ) =>{
 // update task
 const updateTask = async ( req, res ) =>{
 	const { task, project } = res.locals
-	const { success, time, timeWeight, finished, description, user } = req.body
+	if( !Object.keys( req.body ).length ) {
+		return res.status( 400 ).send( { code: 400, message: 'No hay nada que actualizar' } );
+	}
+	const { success, finished, description, sessions } = req.body
 	// task object
 	// from body requets
-	task.description = description;
-	task.member = user;
-	task.time = time;
-	task.timeWeight = timeWeight;
+	task.description = description || task.description;
+	task.sesions = sessions || task.sessions;
+	task.member = {
+		name : req.user.name,
+		email : req.user.email,
+		id : req.user.id,
+	};
 	task.success = success;
 	task.finishDate = task.finishDate || moment().tz('America/Bogota').toISOString();
 	task.finished = finished || success || false;
 
 	task.state = task.finished? 'cerrado' : 'activo';
-	
-	delete project.tasks;
 	try {
 		const { id } = req.params
 		// update task
 		const updatedTask = await Task.findByIdAndUpdate( id , task, { returnOriginal : false } );
 		// update project
-		const projectQuery = { _id: project.id , "time._id": project.arrayId } 
+		delete project?.tasks;
+		console.log( 'TArea editada' )
+		const projectQuery = { _id: task.project , "time._id": project?.arrayId } 
 		const updateProject = { 
-			$set : { 'time.$.minutesUsed': project.timeUsed  }
-		 }
-		const updatedProject = await Project.updateOne( 
-			projectQuery,
-			updateProject, 
-			{ returnOriginal : false } 
-		);
-
-
+			$set : { 'time.$.minutesUsed': project?.timeUsed  }
+		}
+		const updatedProject = project ?
+			await Project.updateOne( 
+				projectQuery,
+				updateProject, 
+				{ returnOriginal : false } 
+				):
+			null;
 		res.status( 200 ).send( { 
 			message: 'Tarea actualizada',
-			ProjetTimeUsed : project.timeUsed ,
+			ProjetTimeUsed : project?.timeUsed ,
 			updatedTask, 
 		}  );
 	} catch (error) {
