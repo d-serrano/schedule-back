@@ -84,7 +84,7 @@ const setAsTask = async ( req, res ) =>{
 	// task object
 	// from body requets
 	task.description = description;
-	task.sesions = sessions;
+	task.sessions = sessions;
 	task.member = {
 		name : req.user.name,
 		email : req.user.email,
