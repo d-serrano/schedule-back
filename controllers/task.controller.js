@@ -25,6 +25,7 @@ const updateTask = async ( req, res ) =>{
 	const { success, finished, description, sessions } = req.body
 	// task object
 	// from body requets
+	console.log({ body : req.body })
 	task.description = description || task.description;
 	task.sessions = sessions || task.sessions;
 	task.member = {

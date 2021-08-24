@@ -3,15 +3,12 @@ const moment = require ( 'moment' );
 const { SECRET_KEY } = require ( '../config' );
 
 exports.ensureAuth = ( req, res, next ) => {
-    console.log({ auth : req.headers.authorization })
     if( !req.headers.authorization ){
         return res.status(403).send( { message: "La petición no tiene cabecera de autentificación" } );
     }
     const token = req.headers.authorization.replace(/['"]+/g, "");
-    console.log({ token })
     try{
         var playload = jwt.decode( token, SECRET_KEY );
-        console.log({ playload })
         if ( playload.exp <= moment.unix() ){
             return res.status(404).send({ messange: "El token ha expirado" });
         }

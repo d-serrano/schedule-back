@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const TaskSchema = Schema({
     name            : { type: String, requiered : true },
     time            : { type: Number, requiered : true },
-    sesions            :{ type: Array , default :[{
+    sessions            :{ type: Array , default :[{
         value           : 0,
         valueWeight     : 1,
         startTime       : null,
