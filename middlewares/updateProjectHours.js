@@ -26,7 +26,6 @@ exports.timeChanged = async ( req, res, next ) => {
     // obtein requeriment
     let task = await Task.findById( id );
     if( !task ){ throw 'No se encontro la tarea a actualizar' }
-    if( !task.isTask ){ throw 'No puedes editar un requerimiento' }
     // save task in locals
     res.locals.task = task;
     if( !sessions ){
