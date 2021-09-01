@@ -9,6 +9,7 @@ const TaskSchema = Schema({
         valueWeight     : 1,
         startTime       : null,
         finishTime      : null,
+        description     : null,
     }]},
     lastRef         : { type: Number, default : 0 },
     isTask          : { type: Boolean, default: false},
