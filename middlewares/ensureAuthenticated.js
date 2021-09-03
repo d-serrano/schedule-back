@@ -13,7 +13,7 @@ exports.ensureAuth = ( req, res, next ) => {
             return res.status(404).send({ messange: "El token ha expirado" });
         }
     }catch( ex ){
-        return res.status(404).send({ message: 'Token invalido.' })
+        return res.status(404).send({ message: 'Token invalido, por favor vuelve a iniciar sesión.' })
     }
     req.user=playload;
     next();
