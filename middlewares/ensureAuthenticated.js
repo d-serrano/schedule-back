@@ -24,7 +24,7 @@ exports.isAdmin = ( req, res, next )=>{
     try{
         var playload = jwt.decode( token, SECRET_KEY );
         if ( !playload.isAdmin ){
-            return res.status(404).send({ messange: "Debe ser un Administrador para realizar esta accion" });
+            return res.status(404).send({ message: "Debe ser un Administrador para realizar esta accion" });
         }
     }catch( ex ){
         return res.status(404).send({ message: 'Token invalido.' })
@@ -37,8 +37,9 @@ exports.isMember = ( req, res, next ) =>{
     const token = req.headers.authorization.replace(/['"]+/g, "");
     try {
        var payload = jwt.decode( token, SECRET_KEY );
-       if( payload.role !== 'member' ){
-        return res.status(404).send({ messange: "Debe spertenecer a Got It para realizar esta accion" });
+       if( ! payload.role ){
+           console.log( { role : payload.role} );
+        return res.status(404).send({ message: "Debe pertenecer a Got It para realizar esta accion" });
        }
     } catch (error) {
         return res.status(404).send({ message: 'Token invalido.' })
